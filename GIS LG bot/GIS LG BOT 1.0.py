@@ -21,7 +21,7 @@ def GISinit():
     chrome_options = Options()
     if not RunFromIDLE: 
         chrome_options.add_argument("--headless")
-    chrome_options.add_argument("user-data-dir=" + os.getenv("TEMP") + "\\gis")
+    chrome_options.add_argument("user-data-dir=" + os.getenv("TEMP") + "\\gis1")
     chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
     GIS = webdriver.Chrome(options = chrome_options)
     GIS.set_page_load_timeout(180)
@@ -229,11 +229,11 @@ while cc != None:
         
         log(f"Запрос № {cc} ({r - 1} из {rmax}) успешно отработан за {round(time.monotonic() - t0, 2)} сек.")
     elif norq != None:
-        log(f"Запрос № {cc} ({r - 1} из {rmax}) не найден (отозван?), переходим к следующему. Потеряли {round(time.monotonic() - t0, 2)} сек.")
+        log(f"Запрос № {cc} ({r - 1} из {rmax}) не найден (отозван или сформирован другим пользователем, но не отправлен), переходим к следующему. Потеряли {round(time.monotonic() - t0, 2)} сек.")
     r = r + 1
     cc = ws1.cell(row = r, column = 1).value
 
 print("Обработка завершена: ", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-t = round(time.monotonic() - t0, 0)
+t = round(time.monotonic() - t00, 0)
 try: print(f"С момента запуска прошло {timedelta(seconds = t)}, в среднем {round(t / (r - 2), 2)} сек. на запрос")
 except: pass
